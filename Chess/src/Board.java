@@ -79,6 +79,10 @@ public class Board {
         }
     }
 
+    public Square getSquareAt(int row, int col){
+        return board.get(row).get(col);
+    }
+
     public List<List<Square>> getBoard() {
         return board;
     }

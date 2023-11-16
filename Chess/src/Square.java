@@ -1,13 +1,13 @@
 public class Square {
-    private final int xPos;
-    private final int yPos;
+    private final int col;
+    private final int row;
     private final String name;
     private Piece piece;
 
     public Square(int x, int y){
-        this.xPos = x;
-        this.yPos = y;
-        this.name = parseSquareName(xPos, yPos);
+        this.col = x;
+        this.row = y;
+        this.name = parseSquareName(col, row);
     }
 
     public static String parseSquareName(int x, int y){
@@ -16,11 +16,11 @@ public class Square {
         return "" + letter + number;
     }
 
-    public int getxPos() {
-        return xPos;
+    public int getCol() {
+        return col;
     }
-    public int getyPos() {
-        return yPos;
+    public int getRow() {
+        return row;
     }
     public String getName() {
         return name;
@@ -35,5 +35,7 @@ public class Square {
     }
 
 
-
+    public String toString(){
+        return name;
+    }
 }
