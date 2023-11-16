@@ -40,11 +40,36 @@ public abstract class Piece {
         return letterName;
     }
 
-//    public abstract boolean move(Square to);
-
-//    public abstract boolean take(Square to);
-
     public abstract List<Square> possibleSquares();
+
+    public boolean move(Square to) {
+        if(possibleSquares().contains(to)){
+            if(to.getPiece() == null){
+                currSquare.setPiece(null);
+                currSquare = to;
+                to.setPiece(this);
+                pieceMoves++;
+                totalMoves++;
+            } else {
+                take(to);
+            }
+            return true;
+        }
+        return false;
+
+    }
+
+    public void take(Square to){
+        //remove taken piece from playing board
+        Piece takenPiece = to.getPiece();
+        takenPieces.add(takenPiece);
+        playingPieces.remove(takenPiece);
+
+        //place current piece in new square
+        currSquare.setPiece(null);
+        currSquare = to;
+        to.setPiece(this);
+    }
 
     protected boolean isKingInCheck(){
         for(Piece piece : playingPieces){

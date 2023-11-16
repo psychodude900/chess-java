@@ -99,10 +99,4 @@ public class Bishop extends Piece{
         return possibleSquares;
 
     }
-
-    public boolean move(Square to) {
-        this.currSquare = null;
-        to.setPiece(this);
-        return true;
-    }
 }

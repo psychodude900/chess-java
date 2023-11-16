@@ -2,15 +2,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class King extends Piece{
-        public King(int color, Square pos, Board board) {
-            super(color, 0, pos, board);
-            this.letterName = "K";
-        }
-
-    public boolean move(Square to) {
-        this.currSquare = null;
-        to.setPiece(this);
-        return true;
+    public King(int color, Square pos, Board board) {
+        super(color, 0, pos, board);
+        this.letterName = "K";
     }
 
     public List<Square> possibleSquares(){
@@ -120,47 +114,54 @@ public class King extends Piece{
         //filter natural king moves
         filterValidMoves(possibleSquares);
 
-        possibleSquares.addAll(possibleCastle());
+        Square shortCastleSquare = shortCastle();
+        Square longCastleSquare = longCastle();
+
+        if(shortCastleSquare != null){
+            possibleSquares.add(shortCastleSquare);
+        }
+        if(longCastleSquare != null){
+            possibleSquares.add(longCastleSquare);
+        }
 
         return possibleSquares;
 
     }
 
-    private List<Square> possibleCastle(){
-        List<Square> possibleCastle = new ArrayList<>();
-
+    private Square shortCastle(){
         boolean hasKingMoved = pieceMoves != 0;
         if(!hasKingMoved){
-            //check which side rook can castle
-            if(currSquare.getRow() == 0){
-                //checking short side castle rook
-                Piece shortRook = board.getSquareAt(currSquare.getRow(), 7).getPiece(); //short rook at col 7
+            //checking short side castle rook
+            Piece shortRook = board.getSquareAt(currSquare.getRow(), 7).getPiece(); //short rook at col 7
 
-                if(shortRook != null){
-                    if(shortRook.getLetterName().equals("R") && shortRook.pieceMoves == 0){
-                        if(canCastle(this, shortRook)){
-                            Square castleSquare = board.getSquareAt(currSquare.getRow(), currSquare.getCol() + 2);
-                            possibleCastle.add(castleSquare);
-                        }
+            if(shortRook != null){
+                if(shortRook.getLetterName().equals("R") && shortRook.pieceMoves == 0){
+                    if(canCastle(this, shortRook)){
+                        return board.getSquareAt(currSquare.getRow(), currSquare.getCol() + 2);
                     }
                 }
-            } else { //if king hasn't moved and is not on row 0, it must be on row 7
-                //checking long side castle rook
-                Piece longRook = board.getSquareAt(currSquare.getRow(), 0).getPiece(); //short rook at col 0
-
-                if(longRook != null){
-                    if(longRook.getLetterName().equals("R") && longRook.pieceMoves == 0){
-                        if(canCastle(this, longRook)){
-                            Square castleSquare = board.getSquareAt(currSquare.getRow(), currSquare.getCol() - 2);
-                            possibleCastle.add(castleSquare);
-                        }
-                    }
-                }
-
             }
         }
 
-        return possibleCastle;
+        return null;
+    }
+
+    private Square longCastle(){
+        boolean hasKingMoved = pieceMoves != 0;
+
+        if(!hasKingMoved) {
+            //checking long side castle rook
+            Piece longRook = board.getSquareAt(currSquare.getRow(), 0).getPiece(); //long rook at col 0
+
+            if (longRook != null) {
+                if (longRook.getLetterName().equals("R") && longRook.pieceMoves == 0) {
+                    if (canCastle(this, longRook)) {
+                        return board.getSquareAt(currSquare.getRow(), currSquare.getCol() - 2);
+                    }
+                }
+            }
+        }
+        return null;
     }
 
     /*
@@ -219,5 +220,59 @@ public class King extends Piece{
 
             return initialSize == finalSize; //if they're equal, no invalid moves, can Castle
         }
+    }
+
+    //accounts for castling
+    @Override
+    public boolean move(Square to){
+        if(to != null) {
+            if (to == longCastle()) {
+                //change king square
+                currSquare.setPiece(null);
+                currSquare = to;
+                to.setPiece(this);
+
+                //change long rook position
+                Piece rook = board.getSquareAt(currSquare.getRow(), 0).getPiece();
+                Square newRookSquare = board.getSquareAt(currSquare.getRow(), currSquare.getCol() + 1);
+                rook.currSquare.setPiece(null);
+                rook.currSquare = newRookSquare;
+                newRookSquare.setPiece(rook);
+
+                pieceMoves++;
+                totalMoves++;
+                return true;
+
+            } else if (to == shortCastle()) {
+                //change king square
+                currSquare.setPiece(null);
+                currSquare = to;
+                to.setPiece(this);
+
+                //change long rook position
+                Piece rook = board.getSquareAt(currSquare.getRow(), 7).getPiece();
+                Square newRookSquare = board.getSquareAt(currSquare.getRow(), currSquare.getCol() -1);
+                rook.currSquare.setPiece(null);
+                rook.currSquare = newRookSquare;
+                newRookSquare.setPiece(rook);
+
+                pieceMoves++;
+                totalMoves++;
+                return true;
+            }
+            if (possibleSquares().contains(to)) {
+                if (to.getPiece() == null) {
+                    currSquare.setPiece(null);
+                    currSquare = to;
+                    to.setPiece(this);
+                    pieceMoves++;
+                    totalMoves++;
+                } else {
+                    take(to);
+                }
+                return true;
+            }
+        }
+        return false;
     }
 }

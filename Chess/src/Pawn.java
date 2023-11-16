@@ -98,11 +98,4 @@ public class Pawn extends Piece {
 
         return possibleSquares;
     }
-
-    public boolean move(Square to) {
-        this.currSquare.setPiece(null);
-        this.currSquare = to;
-        to.setPiece(this);
-        return true;
-    }
 }
