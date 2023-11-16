@@ -68,15 +68,28 @@ public class Board {
         }
     }
 
-    public void displayBoard(){
+    public void displayWhiteBoard(){
         for(int x = board.size() - 1; x >=0; x--){
             for(int y = 0; y < board.size(); y++){
                 Square square = board.get(x).get(y);
                 Piece piece = square.getPiece();
-                System.out.print((piece == null ? square.getName() : piece.getColor() + piece.getLetterName()) + "\t");
+                System.out.print((piece == null ? square : piece) + "\t");
             }
             System.out.println();
         }
+        System.out.println();
+    }
+
+    public void displayBlackBoard(){
+        for(int x = 0; x < board.size(); x++){
+            for(int y = board.size() - 1; y >= 0; y--){
+                Square square = board.get(x).get(y);
+                Piece piece = square.getPiece();
+                System.out.print((piece == null ? square : piece) + "\t");
+            }
+            System.out.println();
+        }
+        System.out.println();
     }
 
     public Square getSquareAt(int row, int col){

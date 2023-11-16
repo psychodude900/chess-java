@@ -1,11 +1,51 @@
+import java.util.*;
 public class Main {
+    public static void movePiece(String letterName, int color, String startSquareName, String toSquareName){
+        Piece piece = Piece.getPlayingPiece(letterName, color, startSquareName);
+        if(piece != null){
+            Square to = Square.getSquare(toSquareName);
+            if(to != null){
+                piece.move(to);
+            } else {
+                System.out.println("Invalid destination square");
+            }
+        } else {
+            System.out.println("Invalid piece");
+        }
+    }
     public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+
         Board board = new Board();
 
-        System.out.println(board.getSquareAt(3, 1));
-        System.out.println(board.getBoard().get(3).get(1).getRow());
-        System.out.println(board.getBoard().get(3).get(1).getCol());
+        int turn = 0; //white starts
+        board.displayWhiteBoard();
 
-        board.displayBoard();
+        System.out.print("Enter move in format (letterName startingSquareNumber toSquareNumber): ");
+        movePiece(in.next(), turn, in.next(), in.next());
+        turn++;
+
+        while(in.hasNextLine()){
+            if (turn == 0) {
+                board.displayWhiteBoard();
+            } else {
+                board.displayBlackBoard();
+            }
+            System.out.print("Enter move in format (letterName startingSquareNumber toSquareNumber): ");
+
+            String letterName = in.next();
+            if(in.next().equals("resign")){
+                break;
+            }
+            String start = in.next();
+            String to = in.next();
+            movePiece(letterName, turn, start, to);
+            if(turn == 0){
+                turn++;
+            } else {
+                turn--;
+            }
+        }
+
     }
 }

@@ -9,6 +9,7 @@ public abstract class Piece {
     protected Board board;
     protected int pieceMoves = 0;
     protected static int totalMoves = 0;
+    protected List<Square> possibleSquares;
     protected static List<Piece> playingPieces = new ArrayList<>();
     protected static List<Piece> takenPieces = new ArrayList<>();
 
@@ -17,6 +18,7 @@ public abstract class Piece {
         this.value = value;
         this.board = board;
         this.currSquare = pos;
+        possibleSquares = new ArrayList<>();
         addPlayingPiece(this);
     }
 
@@ -26,6 +28,17 @@ public abstract class Piece {
                 playingPieces.add(piece);
             }
         }
+    }
+
+    public static Piece getPlayingPiece(String letterName, int color, String startingSquareName){
+        for(Piece piece : playingPieces){
+            if(letterName.equals(piece.getLetterName()) &&
+                    color == piece.getColor() &&
+                    piece.currSquare == Square.getSquare(startingSquareName)){
+                return piece;
+            }
+        }
+        return null;
     }
 
     public int getColor(){
@@ -43,7 +56,8 @@ public abstract class Piece {
     public abstract List<Square> possibleSquares();
 
     public boolean move(Square to) {
-        if(possibleSquares().contains(to)){
+        possibleSquares = possibleSquares();
+        if(possibleSquares.contains(to)){
             if(to.getPiece() == null){
                 currSquare.setPiece(null);
                 currSquare = to;
@@ -111,5 +125,8 @@ public abstract class Piece {
         return index >= 0 && index <= 7;
     }
 
+    public String toString(){
+        return color + letterName;
+    }
 
 }

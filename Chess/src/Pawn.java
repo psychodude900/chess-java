@@ -4,7 +4,7 @@ import java.util.List;
 public class Pawn extends Piece {
     public Pawn(int color, Square pos, Board board){
         super(color, 1, pos, board);
-        this.letterName = "";
+        this.letterName = "P";
     }
 
     public List<Square> possibleSquares() {
@@ -63,6 +63,7 @@ public class Pawn extends Piece {
                 }
             } else { //Not first move
                 //forward move
+                System.out.println(currSquare.getRow() - 1);
                 Square forwardNotFirst = board.getSquareAt(currSquare.getRow() - 1, currSquare.getCol());
                 if(forwardNotFirst.getPiece() == null){
                     possibleSquares.add(forwardNotFirst);

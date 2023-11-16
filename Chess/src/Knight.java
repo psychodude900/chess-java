@@ -7,12 +7,6 @@ public class Knight extends Piece{
         this.letterName = "N";
     }
 
-    public boolean move(Square to) {
-        this.currSquare = null;
-        to.setPiece(this);
-        return true;
-    }
-
     public List<Square> possibleSquares(){
         List<Square> possibleSquares = new ArrayList<>();
 

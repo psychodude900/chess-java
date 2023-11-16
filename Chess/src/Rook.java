@@ -7,12 +7,6 @@ public class Rook extends Piece{
         this.letterName = "R";
     }
 
-    public boolean move(Square to) {
-        this.currSquare = null;
-        to.setPiece(this);
-        return true;
-    }
-
     public List<Square> possibleSquares(){
         List<Square> possibleSquares = new ArrayList<>();
 
