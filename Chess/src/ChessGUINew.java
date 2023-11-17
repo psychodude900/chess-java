@@ -14,6 +14,7 @@ public class ChessGUINew extends JFrame {
     private int currentPlayer = 0; // 0 for White, 1 for Black
     JPanel chessPanel;
     private JButton resignButton, drawButton;
+    private JButton resetButton;
     private JLabel turnLabel;
 
     public ChessGUINew() {
@@ -48,6 +49,7 @@ public class ChessGUINew extends JFrame {
         // Add buttons and labels alongside the chessboard
         resignButton = new JButton("Resign");
         drawButton = new JButton("Draw");
+        resetButton = new JButton("Reset");
         turnLabel = new JLabel("White to play");
 
         resignButton.addActionListener(new ActionListener() {
@@ -67,9 +69,18 @@ public class ChessGUINew extends JFrame {
             }
         });
 
-        JPanel controlPanel = new JPanel(new GridLayout(3, 1));
+        resetButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Handle reset button click
+                resetGame();
+            }
+        });
+
+        JPanel controlPanel = new JPanel(new GridLayout(4, 1));
         controlPanel.add(resignButton);
         controlPanel.add(drawButton);
+        controlPanel.add(resetButton);
         controlPanel.add(turnLabel);
 
         add(controlPanel, BorderLayout.EAST);
@@ -176,6 +187,21 @@ public class ChessGUINew extends JFrame {
             currentKing.currSquare.getButton().setBackground(Color.orange);
         }
 
+    }
+
+    private void resetGame() {
+        int confirmation = JOptionPane.showConfirmDialog(this, "Are you sure you want to reset the game?", "Reset Game", JOptionPane.YES_NO_OPTION);
+
+        if (confirmation == JOptionPane.YES_OPTION) {
+            chessBoard.resetBoard(); // Implement a method in your Board class to reset the board
+            currentPlayer = 1; // Reset the current player to White
+            lastPossibleSquares = null;
+            lastClickedPiece = null;
+            lastClickedSquare = null;
+            updateBoardIcons();
+            updateGameStatus();
+            switchTurn(); // Start the game with the initial turn
+        }
     }
 
     private void switchTurn() {

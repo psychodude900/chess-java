@@ -14,6 +14,10 @@ public class Board {
             board.add(squares);
         }
 
+        populateStartingBoard();
+    }
+
+    private void populateStartingBoard() {
         //populate staring board
         for(int y = 0; y < 8; y++){
             for(int x = 0; x < 8; x++){
@@ -66,6 +70,18 @@ public class Board {
                 }
             }
         }
+    }
+
+    public void resetBoard() {
+        // Clear all pieces from the board
+        for (List<Square> row : board) {
+            for (Square square : row) {
+                square.setPiece(null);
+            }
+        }
+
+        // Initialize the board with the starting position
+        populateStartingBoard();
     }
 
     public void displayWhiteBoard(){
