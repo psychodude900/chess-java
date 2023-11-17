@@ -633,4 +633,15 @@ public class King extends Piece{
 
         return false;
     }
+
+    public boolean checkmate(){
+        List<Square> possibleMoves = new ArrayList<>();
+        for(Piece piece : playingPieces){
+            if(piece.getColor() == color){
+                possibleMoves.addAll(piece.possibleSquares());
+            }
+        }
+        return possibleMoves.size() == 0;
+    }
+
 }

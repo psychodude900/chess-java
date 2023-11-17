@@ -7,6 +7,8 @@ import java.util.List;
 public class ChessGUI extends JFrame {
     private final Board chessBoard;
     private JButton selectedButton = null;
+
+    JPanel chessPanel;
     private List<Square> lastPossibleSquares = null;
     private Piece lastClickedPiece = null;
     private Square lastClickedSquare = null;
@@ -23,7 +25,7 @@ public class ChessGUI extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        JPanel chessPanel = new JPanel(new GridLayout(8, 8));
+        chessPanel = new JPanel(new GridLayout(8, 8));
         add(chessPanel, BorderLayout.CENTER);
 
         // Create buttons for each square on the chessboard
@@ -87,8 +89,7 @@ public class ChessGUI extends JFrame {
                         if(lastPossibleSquares.contains(square)){
                             lastClickedPiece.move(square);
                             switchTurn();
-                            updateButtonIcon(lastClickedSquare.getButton(), lastClickedSquare);
-                            updateButtonIcon(lastClickedPiece.currSquare.getButton(), lastClickedPiece.currSquare);
+
                         }
                     } else{
                         System.out.println("Invalid move: It's not your turn or no piece on the square.");
@@ -101,9 +102,9 @@ public class ChessGUI extends JFrame {
     }
 
     private void updateButtonIcon(JButton button, Square square) {
-        if (lastClickedSquare != null && lastClickedSquare != square) {
-            lastClickedSquare.getButton().setIcon(null);
-        }
+//        if (lastClickedSquare != null && lastClickedSquare != square) {
+//            lastClickedSquare.getButton().setIcon(null);
+//        }
 
         Piece piece = square.getPiece();
         if (piece != null) {
@@ -114,6 +115,8 @@ public class ChessGUI extends JFrame {
             button.setIcon(null);
         }
     }
+
+
 
     private void highlightPossibleSquares(Square square) {
         Piece piece = square.getPiece();
@@ -136,6 +139,18 @@ public class ChessGUI extends JFrame {
         currentPlayer = (currentPlayer + 1) % 2; // Switch turn between 0 and 1
         JLabel turnLabel = (JLabel) getContentPane().getComponent(1); // Get the turn label
         turnLabel.setText((currentPlayer == 0) ? "White's Turn" : "Black's Turn");
+
+        chessPanel = new JPanel(new GridLayout(8, 8));
+        add(chessPanel, BorderLayout.CENTER);
+
+        // Create buttons for each square on the chessboard
+        for (int x = chessBoard.getBoard().size() - 1; x >= 0; x--) {
+            for (int y = 0; y < chessBoard.getBoard().size(); y++) {
+                Square square = chessBoard.getBoard().get(x).get(y);
+                JButton button = square.getButton();
+                chessPanel.add(button);
+            }
+        }
     }
 
     public static String getFullPieceName(String letterName) {
@@ -167,6 +182,6 @@ public class ChessGUI extends JFrame {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(ChessGUI::new);
+        SwingUtilities.invokeLater(ChessGUINew::new);
     }
 }

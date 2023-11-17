@@ -32,6 +32,10 @@ public class Square {
         return null;
     }
 
+    public static List<Square> getAllSquares() {
+        return allSquares;
+    }
+
     public int getCol() {
         return col;
     }

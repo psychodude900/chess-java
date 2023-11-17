@@ -21,6 +21,34 @@ public abstract class Piece {
         addPlayingPiece(this);
     }
 
+    public static String getFullPieceName(String letterName) {
+        switch (letterName) {
+            case "N" -> {
+                return "Knight";
+            }
+            case "K" -> {
+                return "King";
+            }
+            case "Q" -> {
+                return "Queen";
+            }
+            case "B" -> {
+                return "Bishop";
+            }
+            case "R" -> {
+                return "Rook";
+            }
+            case "P" -> {
+                return "Pawn";
+            }
+        }
+        return null;
+    }
+
+    public static String getFullColorName(int color) {
+        return color == 0 ? "White" : "Black";
+    }
+
     public static void addPlayingPiece(Piece piece){
         if(piece != null){
             if(!playingPieces.contains(piece)){
