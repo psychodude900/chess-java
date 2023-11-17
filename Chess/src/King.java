@@ -275,4 +275,362 @@ public class King extends Piece{
         }
         return false;
     }
+
+    protected boolean inCheck(){
+        //get king of this color
+        Piece thisKing = getThisKing(color);
+
+        //check if king is in check by any opposing piece in direct vision
+
+        //check if pawn checks king
+
+        //black pawn checking white king
+        if(color == 0){
+            int up = 1, left = -1, right = 1;
+            //check left take
+            if(indexInBound(currSquare.getRow() + up) && indexInBound(currSquare.getCol() + left)){
+                Square leftPawnSquare = board.getSquareAt(currSquare.getRow() + up, currSquare.getCol() + left);
+                Piece leftPawnPiece = leftPawnSquare.getPiece();
+                if(leftPawnPiece instanceof Pawn && leftPawnPiece.getColor() != color){
+                    return true;
+                }
+            }
+            //check right take
+            if(indexInBound(currSquare.getRow() + up) && indexInBound(currSquare.getCol() + right)){
+                Square rightPawnSquare = board.getSquareAt(currSquare.getRow() + up, currSquare.getCol() + right);
+                Piece rightPawnPiece = rightPawnSquare.getPiece();
+                if(rightPawnPiece instanceof Pawn && rightPawnPiece.getColor() != color){
+                    return true;
+                }
+            }
+        } else { // white pawn checks
+            int down = -1, left = -1, right = 1;
+            //check left take
+            if(indexInBound(currSquare.getRow() + down) && indexInBound(currSquare.getCol() + left)){
+                Square leftPawnSquare = board.getSquareAt(currSquare.getRow() + down, currSquare.getCol() + left);
+                Piece leftPawnPiece = leftPawnSquare.getPiece();
+                if(leftPawnPiece instanceof Pawn && leftPawnPiece.getColor() != color){
+                    return true;
+                }
+            }
+            //check right take
+            if(indexInBound(currSquare.getRow() + down) && indexInBound(currSquare.getCol() + right)){
+                Square rightPawnSquare = board.getSquareAt(currSquare.getRow() + down, currSquare.getCol() + right);
+                Piece rightPawnPiece = rightPawnSquare.getPiece();
+                if(rightPawnPiece instanceof Pawn && rightPawnPiece.getColor() != color){
+                    return true;
+                }
+            }
+        }
+
+        //check if bishop checks king
+        int up = 1, down = -1, left = -1, right = 1;
+        // Check top left diagonal
+        while(indexInBound(currSquare.getRow() + up) && indexInBound(currSquare.getCol() + left)){
+            Square leftDiagBishopSquare = board.getSquareAt(currSquare.getRow() + up, currSquare.getCol() + left);
+            Piece leftDiagBishopPiece = leftDiagBishopSquare.getPiece();
+            if(leftDiagBishopPiece != null){
+                if(leftDiagBishopPiece instanceof Bishop || leftDiagBishopPiece instanceof Queen){
+                    if(leftDiagBishopPiece.getColor() != color){
+                        return true;
+                    } else {
+                        break;
+                    }
+                } else {
+                    break;
+                }
+            }
+            up++;
+            left--;
+        }
+
+        // reset counter diagonals
+        up = 1; left = -1;
+
+        // Check top right diagonal
+        while(indexInBound(currSquare.getRow() + up) && indexInBound(currSquare.getCol() + right)){
+            Square rightDiagBishopSquare = board.getSquareAt(currSquare.getRow() + up, currSquare.getCol() + right);
+            Piece rightDiagBishopPiece = rightDiagBishopSquare.getPiece();
+            if(rightDiagBishopPiece != null){
+                if(rightDiagBishopPiece instanceof Bishop || rightDiagBishopPiece instanceof Queen){
+                    if(rightDiagBishopPiece.getColor() != color){
+                        return true;
+                    } else {
+                        break;
+                    }
+                } else {
+                    break;
+                }
+            }
+            up++;
+            right++;
+        }
+
+        //reset diagonal counters
+        up = 1; right = 1;
+
+        // Check bottom right diagonal
+        while(indexInBound(currSquare.getRow() + down) && indexInBound(currSquare.getCol() + right)){
+            Square rightDiagBishopSquare = board.getSquareAt(currSquare.getRow() + down, currSquare.getCol() + right);
+            Piece rightDiagBishopPiece = rightDiagBishopSquare.getPiece();
+            if(rightDiagBishopPiece != null){
+                if(rightDiagBishopPiece instanceof Bishop || rightDiagBishopPiece instanceof Queen){
+                    if(rightDiagBishopPiece.getColor() != color){
+                        return true;
+                    } else {
+                        break;
+                    }
+                } else{
+                    break;
+                }
+            }
+            down--;
+            right++;
+        }
+
+        //reset used diagonal counter
+        down = -1; right = 1;
+
+        // Check bottom left diagonal
+        while(indexInBound(currSquare.getRow() + down) && indexInBound(currSquare.getCol() + left)){
+            Square leftDiagBishopSquare = board.getSquareAt(currSquare.getRow() + down, currSquare.getCol() + left);
+            Piece leftDiagBishopPiece = leftDiagBishopSquare.getPiece();
+            if(leftDiagBishopPiece != null){
+                if(leftDiagBishopPiece instanceof Bishop || leftDiagBishopPiece instanceof Queen){
+                    if(leftDiagBishopPiece.getColor() != color){
+                        return true;
+                    } else {
+                        break;
+                    }
+                } else {
+                    break;
+                }
+            }
+            down--;
+            left--;
+        }
+
+        //reset used diagonal counter
+        down = -1; left = -1;
+
+
+        //check rook and queen checks
+
+        //declare horizontal and vertical directions
+        int vertical = 1, horizontal = 1;
+
+        //moving up
+        while(indexInBound(currSquare.getRow() + vertical)){
+            Square upRookSquare = board.getSquareAt(currSquare.getRow() + vertical, currSquare.getCol());
+            Piece upRookPiece = upRookSquare.getPiece();
+            if(upRookPiece != null){
+                if(upRookPiece instanceof Rook || upRookPiece instanceof Queen){
+                    if(upRookPiece.getColor() != color){
+                        return true;
+                    } else {
+                        break;
+                    }
+                } else {
+                    break;
+                }
+            }
+            vertical++;
+        }
+
+        //reset used direction counter
+        vertical = 1;
+
+        //moving down
+        while(indexInBound(currSquare.getRow() - vertical)){
+            Square downRookSquare = board.getSquareAt(currSquare.getRow() - vertical, currSquare.getCol());
+            Piece downRookPiece = downRookSquare.getPiece();
+            if(downRookPiece != null){
+                if(downRookPiece instanceof Rook || downRookPiece instanceof Queen){
+                    if(downRookPiece.getColor() != color){
+                        return true;
+                    } else {
+                        break;
+                    }
+                } else {
+                    break;
+                }
+            }
+            vertical++;
+        }
+
+        //reset direction counter
+        vertical = 1;
+
+        //moving right
+        while(indexInBound(currSquare.getCol() + horizontal)){
+            Square rightRookSquare = board.getSquareAt(currSquare.getRow(), currSquare.getCol() + horizontal);
+            Piece rightRookPiece = rightRookSquare.getPiece();
+            if(rightRookPiece != null){
+                if(rightRookPiece instanceof Rook || rightRookPiece instanceof Queen){
+                    if(rightRookPiece.getColor() != color){
+                        return true;
+                    } else {
+                        break;
+                    }
+                } else {
+                    break;
+                }
+            }
+            horizontal++;
+        }
+
+        //reset used direction counter
+        horizontal = 1;
+
+        //moving left
+        while(indexInBound(currSquare.getCol() - horizontal)){
+            Square rightRookSquare = board.getSquareAt(currSquare.getRow(), currSquare.getCol() - horizontal);
+            Piece rightRookPiece = rightRookSquare.getPiece();
+            if(rightRookPiece != null){
+                if(rightRookPiece instanceof Rook || rightRookPiece instanceof Queen){
+                    if(rightRookPiece.getColor() != color){
+                        return true;
+                    } else {
+                        break;
+                    }
+                } else {
+                    break;
+                }
+            }
+            horizontal++;
+        }
+        //reset used direction counter
+        horizontal = 1;
+
+        // check if knight checks
+        //Up 2, right 1 move ('L' shape reflected on x-axis)
+        up = 2;
+        right = 1;
+
+        if(indexInBound(currSquare.getRow() + up) && indexInBound(currSquare.getCol() + right)){
+            Square knightSquare = board.getSquareAt(currSquare.getRow() + up, currSquare.getCol() + right);
+            Piece knightPiece = knightSquare.getPiece();
+            if(knightSquare.getPiece() == null){
+                if(knightPiece instanceof Knight){
+                    if(knightPiece.getColor() != color){
+                        return true;
+                    }
+                }
+            }
+        }
+
+        //Up 1, right 2 move ('L' shape rotated 90 anticlockwise)
+        up = 1;
+        right = 2;
+
+        if(indexInBound(currSquare.getRow() + up) && indexInBound(currSquare.getCol() + right)){
+            Square knightSquare = board.getSquareAt(currSquare.getRow() + up, currSquare.getCol() + right);
+            Piece knightPiece = knightSquare.getPiece();
+            if(knightSquare.getPiece() == null){
+                if(knightPiece instanceof Knight){
+                    if(knightPiece.getColor() != color){
+                        return true;
+                    }
+                }
+            }
+        }
+
+        //Up 1, right 2 move ('L' shape rotated 90 anticlockwise)
+        up = 2;
+        left = -1;
+
+        if(indexInBound(currSquare.getRow() + up) && indexInBound(currSquare.getCol() + left)){
+            Square knightSquare = board.getSquareAt(currSquare.getRow() + up, currSquare.getCol() + left);
+            Piece knightPiece = knightSquare.getPiece();
+            if(knightSquare.getPiece() == null){
+                if(knightPiece instanceof Knight){
+                    if(knightPiece.getColor() != color){
+                        return true;
+                    }
+                }
+            }
+        }
+
+        //Up 1, right 2 move ('L' shape rotated 90 anticlockwise)
+        up = 1;
+        left = -2;
+
+        if(indexInBound(currSquare.getRow() + up) && indexInBound(currSquare.getCol() + left)){
+            Square knightSquare = board.getSquareAt(currSquare.getRow() + up, currSquare.getCol() + left);
+            Piece knightPiece = knightSquare.getPiece();
+            if(knightSquare.getPiece() == null){
+                if(knightPiece instanceof Knight){
+                    if(knightPiece.getColor() != color){
+                        return true;
+                    }
+                }
+            }
+        }
+
+        //Up 1, right 2 move ('L' shape rotated 90 anticlockwise)
+        down = -2;
+        left = -1;
+
+        if(indexInBound(currSquare.getRow() + down) && indexInBound(currSquare.getCol() + left)){
+            Square knightSquare = board.getSquareAt(currSquare.getRow() + down, currSquare.getCol() + left);
+            Piece knightPiece = knightSquare.getPiece();
+            if(knightSquare.getPiece() == null){
+                if(knightPiece instanceof Knight){
+                    if(knightPiece.getColor() != color){
+                        return true;
+                    }
+                }
+            }
+        }
+
+        //Up 1, right 2 move ('L' shape rotated 90 anticlockwise)
+        down = -1;
+        left = -2;
+
+        if(indexInBound(currSquare.getRow() + down) && indexInBound(currSquare.getCol() + left)){
+            Square knightSquare = board.getSquareAt(currSquare.getRow() + down, currSquare.getCol() + left);
+            Piece knightPiece = knightSquare.getPiece();
+            if(knightSquare.getPiece() == null){
+                if(knightPiece instanceof Knight){
+                    if(knightPiece.getColor() != color){
+                        return true;
+                    }
+                }
+            }
+        }
+
+        //Up 1, right 2 move ('L' shape rotated 90 anticlockwise)
+        down = -2;
+        right = 1;
+
+        if(indexInBound(currSquare.getRow() + down) && indexInBound(currSquare.getCol() + right)){
+            Square knightSquare = board.getSquareAt(currSquare.getRow() + down, currSquare.getCol() + right);
+            Piece knightPiece = knightSquare.getPiece();
+            if(knightSquare.getPiece() == null){
+                if(knightPiece instanceof Knight){
+                    if(knightPiece.getColor() != color){
+                        return true;
+                    }
+                }
+            }
+        }
+
+        //Up 1, right 2 move ('L' shape rotated 90 anticlockwise)
+        down = -1;
+        right = 2;
+
+        if(indexInBound(currSquare.getRow() + down) && indexInBound(currSquare.getCol() + right)){
+            Square knightSquare = board.getSquareAt(currSquare.getRow() + down, currSquare.getCol() + right);
+            Piece knightPiece = knightSquare.getPiece();
+            if(knightSquare.getPiece() == null){
+                if(knightPiece instanceof Knight){
+                    if(knightPiece.getColor() != color){
+                        return true;
+                    }
+                }
+            }
+        }
+
+        return false;
+    }
 }

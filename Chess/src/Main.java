@@ -34,7 +34,7 @@ public class Main {
             System.out.print("Enter move in format (letterName startingSquareNumber toSquareNumber): ");
 
             String letterName = in.next();
-            if(in.next().equals("resign")){
+            if(letterName.equals("resign")){
                 break;
             }
             String start = in.next();

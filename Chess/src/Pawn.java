@@ -13,18 +13,22 @@ public class Pawn extends Piece {
             //First pawn move
             if(currSquare.getRow() == 1){
                 for(int squares = 1; squares <= 2; squares++){
-                    Square forwardFirst = board.getSquareAt(currSquare.getRow() + squares, currSquare.getCol());
-                    if(forwardFirst.getPiece() == null){
-                        possibleSquares.add(forwardFirst);
-                    } else{
-                        break;
+                    if(indexInBound(currSquare.getRow() + squares)){
+                        Square forwardFirst = board.getSquareAt(currSquare.getRow() + squares, currSquare.getCol());
+                        if(forwardFirst.getPiece() == null){
+                            possibleSquares.add(forwardFirst);
+                        } else{
+                            break;
+                        }
                     }
                 }
             } else { //Not first move
                 //forward move
-                Square forwardNotFirst = board.getSquareAt(currSquare.getRow() + 1, currSquare.getCol());
-                if(forwardNotFirst.getPiece() == null){
-                    possibleSquares.add(forwardNotFirst);
+                if(indexInBound(currSquare.getRow() + 1)){
+                    Square forwardNotFirst = board.getSquareAt(currSquare.getRow() + 1, currSquare.getCol());
+                    if(forwardNotFirst.getPiece() == null){
+                        possibleSquares.add(forwardNotFirst);
+                    }
                 }
             }
             //possible take
@@ -54,19 +58,22 @@ public class Pawn extends Piece {
         } else { // Black pawn
             if(currSquare.getRow() == 6){ // First move
                 for(int squares = 1; squares <= 2; squares++){
-                    Square forwardFirst = board.getSquareAt(currSquare.getRow() - squares, currSquare.getCol());
-                    if(forwardFirst.getPiece() == null){
-                        possibleSquares.add(forwardFirst);
-                    } else{
-                        break;
+                    if(indexInBound(currSquare.getRow() - squares)){
+                        Square forwardFirst = board.getSquareAt(currSquare.getRow() - squares, currSquare.getCol());
+                        if(forwardFirst.getPiece() == null){
+                            possibleSquares.add(forwardFirst);
+                        } else{
+                            break;
+                        }
                     }
                 }
             } else { //Not first move
                 //forward move
-                System.out.println(currSquare.getRow() - 1);
-                Square forwardNotFirst = board.getSquareAt(currSquare.getRow() - 1, currSquare.getCol());
-                if(forwardNotFirst.getPiece() == null){
-                    possibleSquares.add(forwardNotFirst);
+                if(indexInBound(currSquare.getRow() - 1)){
+                    Square forwardNotFirst = board.getSquareAt(currSquare.getRow() - 1, currSquare.getCol());
+                    if(forwardNotFirst.getPiece() == null){
+                        possibleSquares.add(forwardNotFirst);
+                    }
                 }
             }
 

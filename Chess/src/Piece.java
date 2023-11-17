@@ -41,6 +41,16 @@ public abstract class Piece {
         return null;
     }
 
+    public static King getThisKing(int color){
+        for(Piece piece : playingPieces){
+            if(piece instanceof King && piece.getColor() == color){
+                return (King) piece;
+            }
+        }
+        System.out.println("King not found: Should not have been taken ._.");
+        return null;
+    }
+
     public int getColor(){
         return color;
     }
@@ -55,8 +65,18 @@ public abstract class Piece {
 
     public abstract List<Square> possibleSquares();
 
+    public void enumerate(List<Square> possibleSquares){
+        System.out.println("Possible squares");
+        for(Square possible : possibleSquares){
+            System.out.println(possible + "\t");
+        }
+        System.out.println();
+    }
+
     public boolean move(Square to) {
         possibleSquares = possibleSquares();
+        System.out.println(currSquare);
+        enumerate(possibleSquares);
         if(possibleSquares.contains(to)){
             if(to.getPiece() == null){
                 currSquare.setPiece(null);
@@ -85,17 +105,11 @@ public abstract class Piece {
         to.setPiece(this);
     }
 
-    protected boolean isKingInCheck(){
-        for(Piece piece : playingPieces){
-            if(piece.getColor() != color){
-                for(Square possibleSquare : piece.possibleSquares()){
-                    if(possibleSquare.getPiece().getLetterName().equals("K")){
-                        return true;
-                    }
-                }
-            }
-        }
-        return false;
+    protected boolean isKingInCheck() {
+        //get king of this color
+        King thisKing = getThisKing(color);
+        return thisKing.inCheck();
+
     }
 
     protected void filterValidMoves(List<Square> possibleSquares){
@@ -112,6 +126,7 @@ public abstract class Piece {
                 inValidSquares.add(possibleSquare);
             }
 
+            //restore everything in original position
             currSquare = originalSquare;
             possibleSquare.setPiece(originalPieceOnPossibleSquare);
             currSquare.setPiece(this);
