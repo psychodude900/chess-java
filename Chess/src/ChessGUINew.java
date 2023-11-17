@@ -48,7 +48,7 @@ public class ChessGUINew extends JFrame {
         // Add buttons and labels alongside the chessboard
         resignButton = new JButton("Resign");
         drawButton = new JButton("Draw");
-        turnLabel = new JLabel("White's Turn");
+        turnLabel = new JLabel("White to play");
 
         resignButton.addActionListener(new ActionListener() {
             @Override
@@ -154,6 +154,8 @@ public class ChessGUINew extends JFrame {
 
     private void updateBoardIcons(){
         for(Square square : Square.getAllSquares()){
+            boolean dark = square.getRow() % 2 == square.getCol() % 2;
+            square.getButton().setBackground(dark ? Color.darkGray : Color.lightGray);
             Piece piece = square.getPiece();
             if (piece != null) {
                 // Set the button icon based on the piece type and color
@@ -179,11 +181,17 @@ public class ChessGUINew extends JFrame {
     private void switchTurn() {
         currentPlayer = (currentPlayer + 1) % 2; // Switch turn between 0 and 1
 
+        // Remove the existing chessPanel
+        remove(chessPanel);
+
+        // Create a new chessPanel for the updated turn
         chessPanel = new JPanel(new GridLayout(8, 8));
         add(chessPanel, BorderLayout.CENTER);
 
+        turnLabel.setText((currentPlayer == 0) ? "White to play" : "Black to play");
+
         // Create buttons for each square on the chessboard
-        if(currentPlayer == 0){
+        if (currentPlayer == 0) {
             for (int x = chessBoard.getBoard().size() - 1; x >= 0; x--) {
                 for (int y = 0; y < chessBoard.getBoard().size(); y++) {
                     Square square = chessBoard.getBoard().get(x).get(y);
@@ -201,7 +209,10 @@ public class ChessGUINew extends JFrame {
             }
         }
 
+        revalidate(); // Ensure the changes are applied
+        repaint();    // Repaint the frame
     }
+
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
