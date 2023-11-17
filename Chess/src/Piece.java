@@ -9,7 +9,7 @@ public abstract class Piece {
     protected Board board;
     protected int pieceMoves = 0;
     protected static int totalMoves = 0;
-    protected List<Square> possibleSquares;
+    protected static Piece lastPieceMoved;
     protected static List<Piece> playingPieces = new ArrayList<>();
     protected static List<Piece> takenPieces = new ArrayList<>();
 
@@ -18,7 +18,6 @@ public abstract class Piece {
         this.value = value;
         this.board = board;
         this.currSquare = pos;
-        possibleSquares = new ArrayList<>();
         addPlayingPiece(this);
     }
 
@@ -59,6 +58,10 @@ public abstract class Piece {
         return value;
     }
 
+    public int getPieceMoves(){
+        return pieceMoves;
+    }
+
     public String getLetterName(){
         return letterName;
     }
@@ -74,7 +77,7 @@ public abstract class Piece {
     }
 
     public boolean move(Square to) {
-        possibleSquares = possibleSquares();
+        List<Square> possibleSquares = possibleSquares();
         System.out.println(currSquare);
         enumerate(possibleSquares);
         if(possibleSquares.contains(to)){
@@ -82,16 +85,19 @@ public abstract class Piece {
                 currSquare.setPiece(null);
                 currSquare = to;
                 to.setPiece(this);
-                pieceMoves++;
-                totalMoves++;
             } else {
                 take(to);
             }
+            pieceMoves++;
+            totalMoves++;
+            lastPieceMoved = this;
             return true;
         }
         return false;
 
     }
+
+
 
     public void take(Square to){
         //remove taken piece from playing board
@@ -103,6 +109,10 @@ public abstract class Piece {
         currSquare.setPiece(null);
         currSquare = to;
         to.setPiece(this);
+    }
+
+    public static Piece getLastPieceMoved() {
+        return lastPieceMoved;
     }
 
     protected boolean isKingInCheck() {
