@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -6,6 +7,7 @@ public class Square {
     private final int row;
     private final String name;
     private Piece piece;
+    private JButton button;
     private static List<Square> allSquares = new ArrayList<>();
 
     public Square(int x, int y){
@@ -51,5 +53,12 @@ public class Square {
 
     public String toString(){
         return name;
+    }
+    public JButton getButton() {
+        return button;
+    }
+
+    public void setButton(JButton button) {
+        this.button = button;
     }
 }
