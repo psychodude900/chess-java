@@ -182,7 +182,9 @@ public class ChessGUINew extends JFrame {
         King currentKing = Piece.getThisKing(currentPlayer);
 
         if(currentKing.checkmate()){
+            String winner = currentPlayer == 0 ? "Black" : "White";
             currentKing.currSquare.getButton().setBackground(Color.red);
+            JOptionPane.showMessageDialog(ChessGUINew.this,  winner + " won by checkmate!");
         } else if(currentKing.inCheck()){
             currentKing.currSquare.getButton().setBackground(Color.orange);
         }

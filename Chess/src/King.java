@@ -510,7 +510,7 @@ public class King extends Piece{
         if(indexInBound(currSquare.getRow() + up) && indexInBound(currSquare.getCol() + right)){
             Square knightSquare = board.getSquareAt(currSquare.getRow() + up, currSquare.getCol() + right);
             Piece knightPiece = knightSquare.getPiece();
-            if(knightSquare.getPiece() == null){
+            if(knightSquare.getPiece() != null){
                 if(knightPiece instanceof Knight){
                     if(knightPiece.getColor() != color){
                         return true;
@@ -526,7 +526,7 @@ public class King extends Piece{
         if(indexInBound(currSquare.getRow() + up) && indexInBound(currSquare.getCol() + right)){
             Square knightSquare = board.getSquareAt(currSquare.getRow() + up, currSquare.getCol() + right);
             Piece knightPiece = knightSquare.getPiece();
-            if(knightSquare.getPiece() == null){
+            if(knightSquare.getPiece() != null){
                 if(knightPiece instanceof Knight){
                     if(knightPiece.getColor() != color){
                         return true;
@@ -542,7 +542,7 @@ public class King extends Piece{
         if(indexInBound(currSquare.getRow() + up) && indexInBound(currSquare.getCol() + left)){
             Square knightSquare = board.getSquareAt(currSquare.getRow() + up, currSquare.getCol() + left);
             Piece knightPiece = knightSquare.getPiece();
-            if(knightSquare.getPiece() == null){
+            if(knightSquare.getPiece() != null){
                 if(knightPiece instanceof Knight){
                     if(knightPiece.getColor() != color){
                         return true;
@@ -558,7 +558,7 @@ public class King extends Piece{
         if(indexInBound(currSquare.getRow() + up) && indexInBound(currSquare.getCol() + left)){
             Square knightSquare = board.getSquareAt(currSquare.getRow() + up, currSquare.getCol() + left);
             Piece knightPiece = knightSquare.getPiece();
-            if(knightSquare.getPiece() == null){
+            if(knightSquare.getPiece() != null){
                 if(knightPiece instanceof Knight){
                     if(knightPiece.getColor() != color){
                         return true;
@@ -574,7 +574,7 @@ public class King extends Piece{
         if(indexInBound(currSquare.getRow() + down) && indexInBound(currSquare.getCol() + left)){
             Square knightSquare = board.getSquareAt(currSquare.getRow() + down, currSquare.getCol() + left);
             Piece knightPiece = knightSquare.getPiece();
-            if(knightSquare.getPiece() == null){
+            if(knightSquare.getPiece() != null){
                 if(knightPiece instanceof Knight){
                     if(knightPiece.getColor() != color){
                         return true;
@@ -590,7 +590,7 @@ public class King extends Piece{
         if(indexInBound(currSquare.getRow() + down) && indexInBound(currSquare.getCol() + left)){
             Square knightSquare = board.getSquareAt(currSquare.getRow() + down, currSquare.getCol() + left);
             Piece knightPiece = knightSquare.getPiece();
-            if(knightSquare.getPiece() == null){
+            if(knightSquare.getPiece() != null){
                 if(knightPiece instanceof Knight){
                     if(knightPiece.getColor() != color){
                         return true;
@@ -606,7 +606,7 @@ public class King extends Piece{
         if(indexInBound(currSquare.getRow() + down) && indexInBound(currSquare.getCol() + right)){
             Square knightSquare = board.getSquareAt(currSquare.getRow() + down, currSquare.getCol() + right);
             Piece knightPiece = knightSquare.getPiece();
-            if(knightSquare.getPiece() == null){
+            if(knightSquare.getPiece() != null){
                 if(knightPiece instanceof Knight){
                     if(knightPiece.getColor() != color){
                         return true;
@@ -622,7 +622,7 @@ public class King extends Piece{
         if(indexInBound(currSquare.getRow() + down) && indexInBound(currSquare.getCol() + right)){
             Square knightSquare = board.getSquareAt(currSquare.getRow() + down, currSquare.getCol() + right);
             Piece knightPiece = knightSquare.getPiece();
-            if(knightSquare.getPiece() == null){
+            if(knightSquare.getPiece() != null){
                 if(knightPiece instanceof Knight){
                     if(knightPiece.getColor() != color){
                         return true;
